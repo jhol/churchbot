@@ -24,4 +24,4 @@ for r in reminders:
     if r.date == date.today():
         messages = [(c.phone_no, r.message) for c in contacts if
             c.phone_no and c.phone_no != '']
-        send_messages(JABBER_JID, JABBER_PASS, PHONE_JID, messages)
+        sms.send_messages(JABBER_JID, JABBER_PASS, PHONE_JID, messages)

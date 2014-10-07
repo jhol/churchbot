@@ -3,6 +3,7 @@
 
 import sms
 import gdocsreader
+import logging
 from datetime import date
 
 GDOCS_USER = 'user@google.com'
@@ -11,6 +12,8 @@ GDOCS_PASS = 'x'
 JABBER_JID = 'user@jabber.com'
 JABBER_PASS = 'x'
 PHONE_JID = 'phone@jabber.com'
+
+logging.basicConfig()
 
 # Send Home Group Reminders
 sheets = gdocsreader.get_sheets(GDOCS_USER, GDOCS_PASS, 'Home Group Messaging')

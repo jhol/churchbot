@@ -30,3 +30,20 @@ class Reminder:
 def get_reminders(sheet):
     return [Reminder(*row[0:2]) for row in sheet.get_all_values()]
 
+class RotaSlot:
+    def __init__(self, date_str, service, job, person):
+        self.date = parse_date(date_str)
+        self.service = service
+        self.job = job
+        self.person = person
+
+def get_rota_slots(sheet):
+    rows = sheet.get_all_values()
+    col_roles = {i : (rows[0][i], rows[1][i]) for i in range(2, 6)}
+
+    slots = []
+    for row in rows[2:]:
+        slots += [RotaSlot(row[0], col_roles[i][0], col_roles[i][1], row[i])
+            for i in range(2, 6)]
+
+    return slots

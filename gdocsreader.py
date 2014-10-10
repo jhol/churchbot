@@ -8,6 +8,10 @@ def get_sheets(email, password, spreadsheet):
     gc = gspread.login(email, password)
     return gc.open(spreadsheet).worksheets()
 
+def parse_date(date_str):
+    date_tup = [int(d) for d in date_str.split('/')]
+    return datetime.date(date_tup[2], date_tup[1], date_tup[0])
+
 class Contact:
     def __init__(self, name, phone_no, email):
         self.name = name
@@ -20,8 +24,7 @@ def get_contacts(sheet):
 
 class Reminder:
     def __init__(self, date_str, message):
-        date_tup = [int(d) for d in date_str.split('/')]
-        self.date = datetime.date(date_tup[2], date_tup[1], date_tup[0])
+        self.date = parse_date(date_str)
         self.message = message
 
 def get_reminders(sheet):

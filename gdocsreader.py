@@ -13,7 +13,7 @@ def parse_date(date_str):
     return datetime.date(date_tup[2], date_tup[1], date_tup[0])
 
 class Contact:
-    def __init__(self, name, phone_no, email):
+    def __init__(self, name, phone_no=None, email=None):
         self.name = name
         self.phone_no = phone_no
         self.email = email

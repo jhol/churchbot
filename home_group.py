@@ -4,14 +4,8 @@
 import sms
 import gdocsreader
 import logging
+from logins import *
 from datetime import date
-
-GDOCS_USER = 'user@google.com'
-GDOCS_PASS = 'x'
-
-JABBER_JID = 'user@jabber.com'
-JABBER_PASS = 'x'
-PHONE_JID = 'phone@jabber.com'
 
 logging.basicConfig()
 

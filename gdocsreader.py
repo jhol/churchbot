@@ -1,16 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import re
 import datetime
 import gspread
+
+date_regex = re.compile('([0-9]*)/([0-9]*)/([0-9]*)')
 
 def get_sheets(email, password, spreadsheet):
     gc = gspread.login(email, password)
     return gc.open(spreadsheet).worksheets()
 
 def parse_date(date_str):
-    date_tup = [int(d) for d in date_str.split('/')]
-    return datetime.date(date_tup[2], date_tup[1], date_tup[0])
+    m = date_regex.match(date_str)
+    if m:
+        date_tup = [int(m.group(i)) for i in range(1, 4)]
+        return datetime.date(date_tup[2], date_tup[1], date_tup[0])
+    return None
 
 class Contact:
     def __init__(self, name, phone_no=None, email=None):
@@ -47,3 +53,14 @@ def get_rota_slots(sheet):
             for i in range(2, 6)]
 
     return slots
+
+def mark_old_rota_slots(sheet):
+    """Puts square brackes around any dates that are in the past
+
+    :param The rota sheet to update
+    """
+    rows = sheet.get_all_values()
+    for r in range(len(rows) - 2):
+        val = sheet.cell(r + 3, 1).value
+        if val[0] != '[' and parse_date(val) < datetime.date.today():
+            sheet.update_cell(r + 3, 1, '[%s]' % val)

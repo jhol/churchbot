@@ -17,7 +17,7 @@ contacts = gdocsreader.get_contacts(
 
 rota_sheet = [s for s in sheets if s.title == 'Rota'][0]
 slots = [s for s in gdocsreader.get_rota_slots(rota_sheet) if
-    s.date > date.today() and s.date < date.today() + timedelta(7)]
+    s.date and s.date > date.today() and s.date < date.today() + timedelta(7)]
 
 messages = []
 for s in slots:
@@ -30,3 +30,6 @@ for s in slots:
 
 if messages:
     sms.send_messages(JABBER_JID, JABBER_PASS, PHONE_JID, messages)
+
+print("Marking old rows...")
+gdocsreader.mark_old_rota_slots(rota_sheet)
